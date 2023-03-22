@@ -12,23 +12,24 @@ import {
 import { webhookGeneralChannel, webhookPetsChannel, webhookTestChannel } from './webhooks.js';
 
 
-function sendMessage(payload, webhook) {
+async function sendMessage(payload, webhook) {
 	console.log(chalk.yellow("|------------------------------------|"));
 	console.log(chalk.cyan("Running scheduled job"));
-	const spinner1 = ora({
+	
+	const spinner = ora({
 		text: "Sending message to Discord",
 		color: "blue",
 		hideCursor: false,
 	}).start();
 
 	try {
-		webhook.send(payload);
-		spinner1.succeed("Message sent to Discord");
-		spinner1.clear();
-		console.log(chalk.green("Finished at: " + new Date().toISOString()));
+		const message = await webhook.send(payload);
+		spinner.succeed("Message sent to Discord");
+		spinner.clear();
+		console.log(chalk.green("Message: " + message));
 	} catch (error) {
-		spinner1.fail("Error sending message to Discord");
-		spinner1.clear();
+		spinner.fail("Error sending message to Discord");
+		spinner.clear();
 		console.log(chalk.red("Error: " + error));
 
 	}

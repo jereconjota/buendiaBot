@@ -1,4 +1,4 @@
-# BuendiaBot (webhook)
+# BuendiaBot (discord)
 ### Servidor node para enviar mensajes a discord usando webhooks
 
 ---
