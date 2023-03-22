@@ -1,4 +1,4 @@
-# Bot de discord (webhook)
+# BuendiaBot (webhook)
 ### Servidor node para enviar mensajes a discord usando webhooks
 
 ---
@@ -9,17 +9,43 @@
 npm install
 ```
 
+## Crear un webhook en tu servidor de discord
+
+
+1. Entra a tu servidor de discord
+2. Entra a la configuración del servidor
+3. Selecciona la pestaña de integraciones
+4. Selecciona la opción de webhooks
+5. Selecciona la opción de crear un webhook
+6. Selecciona el canal al cual se enviara el mensaje
+7. Copia el link del webhook
+
+El link del webhook tiene el siguiente formato:
+
+```bash
+https://discord.com/api/webhooks/xxxxxxxxxxxxxxxxxxxx/yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+```
+
+Donde:
+
+- xxxxxxxxxxxxxxxxxxxx es el id del webhook
+
+- yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy es el token del webhook
+
+
 ## Variables de entorno
 
-```env
-WEBHOOK_ID=123456789012345678
-WEBHOOK_TOKEN=your-token-goes-here
+hacer una copia del archivo .env.example y renombrarlo a .env
 
-PAYLOAD_CONTENT="Este es el cuerpo del mensaje"
-PAYLOAD_USERNAME=NombreDelBot
-PAYLOAD_AVATAR_URL=https://i.postimg.cc/3R4jbs3t/IMG-0834.jpg
-
+```bash
+cp .env.example .env
 ```
+
+Podes editar las variables de entorno con los datos de tu webhook, el contenido del mensaje, el nombre del bot y la imagen del bot.
+
+__Esta configurado para mandar un mensaje lunes a viernes a las 9am.__
+
+Podes agregar los webhooks de los canales que quieras, solo tenes que agregar una variable mas con el nombre del canal y el valor del webhook, y luego en el archivo webhook.js agregar el webhook y exportarlo.
 
 ## Uso
 
@@ -31,14 +57,7 @@ node index.js
 
 ## Funcionamiento
 
-El bot se encarga de enviar mensajes a un canal de discord usando webhooks. Para ello se debe crear un webhook en el servidor de discord que administramos, especificar el canal a cual se enviara el mensaje y luego copiar el link para obtener el id y el token del webhook. Estos datos se deben agregar como variables de entorno en el archivo .env.
-
 El bot se encarga de enviar un mensaje con el contenido especificado en la variable PAYLOAD_CONTENT, el nombre del bot se especifica en la variable PAYLOAD_USERNAME y la imagen del bot se especifica en la variable PAYLOAD_AVATAR_URL.
 
-Especificar en la linea 48 del archivo index.js el intervalo de tiempo en el cual se enviara el mensaje. Por ejemplo:
+El bot se encarga de enviar el mensaje a los webhooks especificados en el archivo webhook.js
 
-```js
-const job = nodeCron.schedule('0 30 11 18 *', sendToDiscord);
-```
-
-En este ejemplo el mensaje se enviara todos los dias a las 11:30 am del 18 de cada mes.

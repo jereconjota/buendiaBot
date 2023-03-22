@@ -1,52 +1,110 @@
-require('dotenv').config()
-const ora = require('ora');
-const chalk = require('chalk');
-const nodeCron = require('node-cron');
-const { EmbedBuilder, WebhookClient } = require('discord.js');
-const webhookClient = new WebhookClient({ id: process.env.WEBHOOK_ID, token: process.env.WEBHOOK_TOKEN });
+import ora from 'ora';
+import chalk from 'chalk';
+import nodeCron from 'node-cron';
+import {
+	monday, gifMonday,
+	tuesday, gifTuesday,
+	wednesday, gifWednesday,
+	thursday, gifThursday,
+	friday, gifFriday,
+	pets, gifPets, test
+} from './payloads.js';
+import { webhookGeneralChannel, webhookPetsChannel, webhookTestChannel } from './webhooks.js';
 
-// we can add embeds to the webhook
-const embed = new EmbedBuilder()
-	.setTitle('🐶🐱🐰🐴🦄🐦🐠')
-	.setDescription('Dejanos unas fotos para alegrar la tarde')
-	.setColor(0x00FFFF);
 
-const messagePeyload = {
-	content: process.env.PAYLOAD_CONTENT,
-	username: process.env.PAYLOAD_USERNAME,
-	avatarURL: process.env.PAYLOAD_AVATAR_URL,
-	// embeds: [embed],
-};
-
-function sendToDiscord() {
-
-	console.log(chalk.green("Running scheduled job"));
-	const spinner = ora({
+function sendMessage(payload, webhook) {
+	console.log(chalk.yellow("|------------------------------------|"));
+	console.log(chalk.cyan("Running scheduled job"));
+	const spinner1 = ora({
 		text: "Sending message to Discord",
 		color: "blue",
 		hideCursor: false,
 	}).start();
 
 	try {
-		webhookClient.send(messagePeyload);
-		spinner.succeed("Message sent to Discord");
-		spinner.clear();
+		webhook.send(payload);
+		spinner1.succeed("Message sent to Discord");
+		spinner1.clear();
 		console.log(chalk.green("Finished at: " + new Date().toISOString()));
-		
 	} catch (error) {
-		spinner.fail("Error sending message to Discord");
-		spinner.clear();
+		spinner1.fail("Error sending message to Discord");
+		spinner1.clear();
 		console.log(chalk.red("Error: " + error));
-		
+
 	}
 }
 
-// job to run every 5 seconds
-// const job = nodeCron.schedule('*/5 * * * * *', sendToDiscord);
+function sendToDiscordOnMonday() {
+	sendMessage(monday, webhookGeneralChannel);
+	sendMessage(gifMonday, webhookGeneralChannel);
+}
 
-// job to run every 1 month, on the 18th at 11:30:00
-const job = nodeCron.schedule('0 30 11 18 *', sendToDiscord);
+function sentToDiscordOnTuesday() {
+	sendMessage(tuesday, webhookGeneralChannel);
+	sendMessage(gifTuesday, webhookGeneralChannel);
+}
+
+function sentToDiscordOnWednesday() {
+	sendMessage(wednesday, webhookGeneralChannel);
+	sendMessage(gifWednesday, webhookGeneralChannel);
+}
+
+function sentToDiscordOnThursday() {
+	sendMessage(thursday, webhookGeneralChannel);
+	sendMessage(gifThursday, webhookGeneralChannel);
+}
+
+function sentToDiscordOnFriday() {
+	sendMessage(friday, webhookGeneralChannel);
+	sendMessage(gifFriday, webhookGeneralChannel);
+}
+
+function sentPetsMessage() {
+	sendMessage(pets, webhookPetsChannel);
+	sendMessage(gifPets, webhookPetsChannel);
+}
+
+
+// test message ////////////////////
+
+// function sentTestMessage() {
+// 	sendMessage(test, webhookTestChannel);
+// }
+
+//test job to run every 5 seconds
+//const job = nodeCron.schedule('*/5 * * * * *', sentTestMessage);
+
+////////////////////////////////////
+
+
+//CRON JOBS
+//job to run every monday ay 09:00:00
+const jobMonday = nodeCron.schedule('0 0 9 * * 1', sendToDiscordOnMonday);
+
+//job to run every tuesday ay 09:00:00
+const jobTuesday = nodeCron.schedule('0 0 9 * * 2', sentToDiscordOnTuesday);
+
+//job to run every wednesday ay 09:00:00
+const jobWednesday = nodeCron.schedule('0 0 9 * * 3', sentToDiscordOnWednesday);
+
+//job to run every thursday ay 09:00:00
+const jobThursday = nodeCron.schedule('0 0 9 * * 4', sentToDiscordOnThursday);
+
+//job to run every friday ay 09:00:00
+const jobFriday = nodeCron.schedule('0 0 9 * * 5', sentToDiscordOnFriday);
+
+//job to run every thursday ay 11:45:00
+const jobPets = nodeCron.schedule('0 45 11 * * 4', sentPetsMessage);
 
 
 
+const spinner = ora({
+	text: "Genoshi is starting...",
+	color: "blue",
+	hideCursor: false,
+}).start();
 
+setTimeout(() => {
+	spinner.succeed(chalk.greenBright("Genoshi is online"));
+	spinner.clear();
+}, 500);
