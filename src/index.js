@@ -7,7 +7,7 @@ import {
 	wednesday, gifWednesday,
 	thursday, gifThursday,
 	friday, gifFriday,
-	pets, gifPets, test
+	pets, gifPets
 } from './payloads.js';
 import { webhookGeneralChannel, webhookPetsChannel, webhookTestChannel } from './webhooks.js';
 
@@ -15,7 +15,7 @@ import { webhookGeneralChannel, webhookPetsChannel, webhookTestChannel } from '.
 async function sendMessage(payload, webhook) {
 	console.log(chalk.yellow("|------------------------------------|"));
 	console.log(chalk.cyan("Running scheduled job"));
-	
+
 	const spinner = ora({
 		text: "Sending message to Discord",
 		color: "blue",
@@ -23,7 +23,8 @@ async function sendMessage(payload, webhook) {
 	}).start();
 
 	try {
-		const message = await webhook.send(payload);
+		const res = await webhook.send(payload);
+		const message = JSON.stringify(res.content);
 		spinner.succeed("Message sent to Discord");
 		spinner.clear();
 		console.log(chalk.green("Message: " + message));
@@ -31,72 +32,34 @@ async function sendMessage(payload, webhook) {
 		spinner.fail("Error sending message to Discord");
 		spinner.clear();
 		console.log(chalk.red("Error: " + error));
-
 	}
 }
 
-function sendToDiscordOnMonday() {
-	sendMessage(monday, webhookGeneralChannel);
-	sendMessage(gifMonday, webhookGeneralChannel);
+function sendOnDay(message, webhook, gif) {
+	sendMessage(message, webhook);
+	if (gif) {
+		sendMessage(gif, webhook);
+	}
 }
-
-function sentToDiscordOnTuesday() {
-	sendMessage(tuesday, webhookGeneralChannel);
-	sendMessage(gifTuesday, webhookGeneralChannel);
-}
-
-function sentToDiscordOnWednesday() {
-	sendMessage(wednesday, webhookGeneralChannel);
-	sendMessage(gifWednesday, webhookGeneralChannel);
-}
-
-function sentToDiscordOnThursday() {
-	sendMessage(thursday, webhookGeneralChannel);
-	sendMessage(gifThursday, webhookGeneralChannel);
-}
-
-function sentToDiscordOnFriday() {
-	sendMessage(friday, webhookGeneralChannel);
-	sendMessage(gifFriday, webhookGeneralChannel);
-}
-
-function sentPetsMessage() {
-	sendMessage(pets, webhookPetsChannel);
-	sendMessage(gifPets, webhookPetsChannel);
-}
-
-
-// test message ////////////////////
-
-// function sentTestMessage() {
-// 	sendMessage(test, webhookTestChannel);
-// }
-
-//test job to run every 5 seconds
-//const job = nodeCron.schedule('*/5 * * * * *', sentTestMessage);
-
-////////////////////////////////////
-
 
 //CRON JOBS
 //job to run every monday ay 09:00:00
-const jobMonday = nodeCron.schedule('0 0 9 * * 1', sendToDiscordOnMonday);
+const jobMonday = nodeCron.schedule('0 0 9 * * 1', sendOnDay(monday, webhookGeneralChannel, gifMonday));
 
 //job to run every tuesday ay 09:00:00
-const jobTuesday = nodeCron.schedule('0 0 9 * * 2', sentToDiscordOnTuesday);
+const jobTuesday = nodeCron.schedule('0 0 9 * * 2', sendOnDay(tuesday, webhookGeneralChannel, gifTuesday));
 
 //job to run every wednesday ay 09:00:00
-const jobWednesday = nodeCron.schedule('0 0 9 * * 3', sentToDiscordOnWednesday);
+const jobWednesday = nodeCron.schedule('0 0 9 * * 3', sendOnDay(wednesday, webhookGeneralChannel, gifWednesday));
 
 //job to run every thursday ay 09:00:00
-const jobThursday = nodeCron.schedule('0 0 9 * * 4', sentToDiscordOnThursday);
+const jobThursday = nodeCron.schedule('0 0 9 * * 4', sendOnDay(thursday, webhookGeneralChannel, gifThursday));
 
 //job to run every friday ay 09:00:00
-const jobFriday = nodeCron.schedule('0 0 9 * * 5', sentToDiscordOnFriday);
+const jobFriday = nodeCron.schedule('0 0 9 * * 5', sendOnDay(friday, webhookGeneralChannel, gifFriday));
 
 //job to run every thursday ay 11:45:00
-const jobPets = nodeCron.schedule('0 45 11 * * 4', sentPetsMessage);
-
+const jobPets = nodeCron.schedule('0 45 11 * * 4', sendOnDay(pets, webhookPetsChannel, gifPets));
 
 
 const spinner = ora({
@@ -104,8 +67,5 @@ const spinner = ora({
 	color: "blue",
 	hideCursor: false,
 }).start();
-
-setTimeout(() => {
-	spinner.succeed(chalk.greenBright("Genoshi is online"));
-	spinner.clear();
-}, 500);
+spinner.succeed(chalk.greenBright("Genoshi is online"));
+spinner.clear();

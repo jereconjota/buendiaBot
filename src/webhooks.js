@@ -15,5 +15,5 @@ export const webhookPetsChannel = new WebhookClient({
 
 export const webhookTestChannel = new WebhookClient({
 	id: process.env.WEBHOOK_TEST_CHANNEL_ID,
-	token: process.env.WEBHOOK_TEST_CHANNEL_ID
+	token: process.env.WEBHOOK_TEST_CHANNEL_TOKEN
 });

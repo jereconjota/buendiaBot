@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import { week, pet } from './messages.js';
 
 // we can add embeds to the webhook
 // const embed = new EmbedBuilder()
@@ -8,74 +9,68 @@ dotenv.config();
 // 	.setColor(0x00FFFF);
 
 export const monday = {
-    content: process.env.PAYLOAD_MONDAY,
+    content: week.monday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
     // embeds: [embed],
 }
 export const gifMonday = {
-    content: process.env.GIF_MONDAY,
+    content: week.gifMonday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 
 export const tuesday = {
-    content: process.env.PAYLOAD_TUESDAY,
+    content: week.tuesday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 export const gifTuesday = {
-    content: process.env.GIF_TUESDAY,
+    content: week.gifTuesday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 
 export const wednesday = {
-    content: process.env.PAYLOAD_WEDNESDAY,
+    content: week.wednesday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 export const gifWednesday = {
-    content: process.env.GIF_WEDNESDAY,
+    content: week.gifWednesday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 
 export const thursday = {
-    content: process.env.PAYLOAD_THURSDAY,
+    content: week.thursday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 export const gifThursday = {
-    content: process.env.GIF_THURSDAY,
+    content: week.gifThursday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 
 export const friday = {
-    content: process.env.PAYLOAD_FRIDAY,
+    content: week.friday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 export const gifFriday = {
-    content: process.env.GIF_FRIDAY,
+    content: week.gifFriday,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 
 export const pets = {
-    content: process.env.PAYLOAD_PETS,
+    content: pet.message,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }
 export const gifPets = {
-    content: process.env.GIF_PETS,
-    username: process.env.PAYLOAD_USERNAME,
-    avatarURL: process.env.PAYLOAD_AVATAR_URL,
-}
-
-export const test = {
-    content: process.env.PAYLOAD_TEST,
+    content: pet.gif,
     username: process.env.PAYLOAD_USERNAME,
     avatarURL: process.env.PAYLOAD_AVATAR_URL,
 }

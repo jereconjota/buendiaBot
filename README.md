@@ -41,11 +41,18 @@ hacer una copia del archivo .env.example y renombrarlo a .env
 cp .env.example .env
 ```
 
-Podes editar las variables de entorno con los datos de tu webhook, el contenido del mensaje, el nombre del bot y la imagen del bot.
+Podes editar las variables de entorno con los datos de tu webhook, el nombre del bot y la imagen del bot.
 
 __Esta configurado para mandar un mensaje lunes a viernes a las 9am.__
 
 Podes agregar los webhooks de los canales que quieras, solo tenes que agregar una variable mas con el nombre del canal y el valor del webhook, y luego en el archivo webhook.js agregar el webhook y exportarlo.
+
+## Contenido de los mensajes
+
+El contenido de los mensajes se especifica en el archivo messages.js
+
+Es un mensaje y un gif por dia habil (lunes a viernes)
+
 
 ## Uso
 
@@ -54,10 +61,4 @@ node index.js
 ```
 
 ---
-
-## Funcionamiento
-
-El bot se encarga de enviar un mensaje con el contenido especificado en la variable PAYLOAD_CONTENT, el nombre del bot se especifica en la variable PAYLOAD_USERNAME y la imagen del bot se especifica en la variable PAYLOAD_AVATAR_URL.
-
-El bot se encarga de enviar el mensaje a los webhooks especificados en el archivo webhook.js
 
