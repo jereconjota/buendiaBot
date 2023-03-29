@@ -35,31 +35,58 @@ async function sendMessage(payload, webhook) {
 	}
 }
 
-function sendOnDay(message, webhook, gif) {
-	sendMessage(message, webhook);
-	if (gif) {
-		sendMessage(gif, webhook);
+async function sendOnDay(webhook, pets) {
+	let message;
+	let gif;
+
+	if (pets) {
+		message = pets;
+		gif = gifPets;
+	} else {
+		const day = new Date().toLocaleString('en-us', { weekday: 'long' });
+		console.log(chalk.bgCyan("Today is: " + day));
+
+		switch (day) {
+			case "Monday":
+				message = monday;
+				gif = gifMonday;
+				break;
+			case "Tuesday":
+				message = tuesday;
+				gif = gifTuesday;
+				break;
+			case "Wednesday":
+				message = wednesday;
+				gif = gifWednesday;
+				break;
+			case "Thursday":
+				message = thursday;
+				gif = gifThursday;
+				break;
+			case "Friday":
+				message = friday;
+				gif = gifFriday;
+				break;
+		}
+	}
+
+	try {
+		await sendMessage(message, webhook);
+		if (gif) {
+			await sendMessage(gif, webhook);
+		}
+	} catch (error) {
+		console.log(chalk.red("Error: " + error));
 	}
 }
 
 //CRON JOBS
-//job to run every monday ay 09:00:00
-const jobMonday = nodeCron.schedule('0 0 9 * * 1', sendOnDay(monday, webhookGeneralChannel, gifMonday));
 
-//job to run every tuesday ay 09:00:00
-const jobTuesday = nodeCron.schedule('0 0 9 * * 2', sendOnDay(tuesday, webhookGeneralChannel, gifTuesday));
-
-//job to run every wednesday ay 09:00:00
-const jobWednesday = nodeCron.schedule('0 0 9 * * 3', sendOnDay(wednesday, webhookGeneralChannel, gifWednesday));
-
-//job to run every thursday ay 09:00:00
-const jobThursday = nodeCron.schedule('0 0 9 * * 4', sendOnDay(thursday, webhookGeneralChannel, gifThursday));
-
-//job to run every friday ay 09:00:00
-const jobFriday = nodeCron.schedule('0 0 9 * * 5', sendOnDay(friday, webhookGeneralChannel, gifFriday));
+//job to run every 1 day at 00:09:00
+const jobDay = nodeCron.schedule('0 9 * * 1-5', () => sendOnDay(webhookGeneralChannel, false));
 
 //job to run every thursday ay 11:45:00
-const jobPets = nodeCron.schedule('0 45 11 * * 4', sendOnDay(pets, webhookPetsChannel, gifPets));
+const jobPets = nodeCron.schedule('0 45 11 * * 4', () => sendOnDay(webhookPetsChannel, pets));
 
 
 const spinner = ora({

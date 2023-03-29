@@ -1,7 +1,6 @@
-
 export const week = {
     monday: "¡Buen lunes Genoshans!\n¿Cuesta arrancar? 🤔 Poné la radio, hacete un buen desayuno, unos ricos mates y todo fluye🙌\n¡Que tengan una excelente semana!👍😃",
-    gifMonday: "https://tenor.com/view/dragon-ball-anime-goku-son-goku-happy-gif-17592860",
+    gifMonday: "https://tenor.com/view/goku-sleep-gif-9540583",
 
     tuesday: "¡Buen día Genoshans! \n¿Qué tal el clima en tu ciudad?🌞🌤️🌧️🌦️\n¡Que tengas un excelente martes!👍",
     gifTuesday: "https://tenor.com/view/majo-no-takkyubin-stirring-kikis-delivery-service-coffee-mornings-be-like-gif-8676359",
